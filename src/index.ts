@@ -1,30 +1,37 @@
-import express from "express";
-import DBconnect from "../Config/db";
-import cors from "cors";
-import router from "../routes/user.route";
+import express, { Application } from "express"
+import appConfig from "./app";
+
+import dbConnection from "../Config/db";
+
+// NAMING OUR PORT NUMBER
+const PORT:number = 5055;
 
 
-// Naming our Port 
-const PORT = 5050;
+// INITIALIZING OUR APP
+const app:Application = express();
 
-// INITIALIZING DB CONNECTION
-DBconnect()
-
-// INSTANTIATING THE APPLICATION
-const app = express();
-
-
-// INSTANTIATING MIDDLEWARES
-app.use(express.json())
-app.use(cors())
-
-// INSTANTIATING OUR ROUTES
-app.use("/api/auth",router)
-
-
-app.listen(PORT,()=>{
-console.log(`Server is listening to ${PORT}`);
-
+process.on("uncaughtException",(err:Error)=>{
+    console.log("uncaughtException","server shutting down");
+    console.log(err.name,err.message);
+    process.exit(1);
 })
 
 
+appConfig(app)
+dbConnection()
+
+
+
+const server = app.listen(PORT,()=>{
+console.log(`Server is listening to ${PORT}`);
+});
+
+process.on("unhandledRejection",(reason:any)=>{
+    console.log("unhandledRejection","server is shutting down");
+    console.log(reason.message,reason);
+    server.close(()=>{
+        process.exit(1)
+    })
+    
+    
+})

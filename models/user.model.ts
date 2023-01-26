@@ -1,39 +1,46 @@
-import mongoose,{Schema,model,Document} from "mongoose";
-
+import mongoose,{Document, model, Schema} from "mongoose";
+import isEmail from "validator/lib/isEmail";
 
 interface UserData{
+    fullname:string;
     email:string;
     password:string;
-    fullname:string;
     stack:string;
+    isAdmin:Boolean;
 }
 
-interface UserSchema extends UserData,Document{}
+interface DataSchema extends UserData ,Document{}
 
 const userSchema = new Schema({
+    fullname:{
+        type:String,
+        required:[true,"Please Enter your fullname"],
+    },
     email:{
         type:String,
-        required:[true,"Please enter an email"],
-        lowercase:true,
+        required:[true,"Please Enter your email"],
         unique:true,
+        lowercase:true,
         trim:true,
+        validate:[isEmail,"Please Enter a Valid email"]
     },
     password:{
         type:String,
-        required:[true,"Please enter your Valid Password"],
-        min:[6,"Please enter a password with 6 values"]
-    },
-    fullname:{
-        type:String,
-        required:[true,"Please enter your full name"]
+        required:[true,"Please enter your password"],
+        minlength:6,
     },
     stack:{
         type:String,
+    },
+    isAdmin:{
+        type:Boolean,
+        default:false,
     }
-},
-{timestamps:true}
-)
+},{timestamps:true,
+versionKey:false,
+})
 
-const UserModel = model<UserSchema>("User",userSchema)
+
+const UserModel =model<DataSchema>("User",userSchema)
 
 export default UserModel;
