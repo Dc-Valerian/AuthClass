@@ -1,7 +1,5 @@
- export interface UserData{
-    fullname:string;
-    email:string;
-    password:string;
-    stack:string;
-    isAdmin:Boolean;
+export interface IData {
+  name: string;
+  email: string;
+  password: string;
 }
