@@ -1,10 +1,11 @@
 import express, { Application } from "express";
 import { appConfig } from "./app";
-import { dbConfig } from "./config/DB";
+import { dbConfig } from "../config/DB";
 
 const app: Application = express();
 
 const port: number = 4040;
+
 
 process.on("uncaughtException", (err: Error) => {
   console.log(`UncaughtException, server shutting down`);

@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const DB_URL = "mongodb://localhost/authDB";
+const DB_URL = "mongodb://0.0.0.0:27017/authDB";
 
 export const dbConfig = async (): Promise<void> => {
   try {

@@ -1,14 +1,17 @@
-import { Schema, Document, model } from "mongoose";
-import { IData } from "../interfaces/user.interface";
+import mongoose, { Schema, Document, model } from "mongoose";
+// import { IData } from "../interfaces/user.interface";
+import {userData} from "./AllInterface"
 import isEmail from "validator/lib/isEmail";
 
-interface ISchema extends IData, Document {}
+// interface ISchema extends IData, Document {}
+interface user extends userData,mongoose.Document{}
 
-const userSchema = new Schema<IData>(
+const userSchema = new Schema<userData>(
   {
     name: {
       type: String,
       required: [true, "Please enter your name"],
+      trim:true
     },
     email: {
       type: String,
@@ -22,6 +25,18 @@ const userSchema = new Schema<IData>(
       type: String,
       required: [true, "Please enter your password"],
     },
+    wishlist:[
+      {
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"WishListCollections"
+      }
+    ],
+    product:[
+      {
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"productsCollections"
+      }
+    ]
   },
   {
     timestamps: true,
@@ -29,5 +44,5 @@ const userSchema = new Schema<IData>(
   }
 );
 
-const UserModel = model<ISchema>("User", userSchema);
+const UserModel = model<userData>("userCollections", userSchema);
 export default UserModel;

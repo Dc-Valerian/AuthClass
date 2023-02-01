@@ -1,10 +1,10 @@
 import express, { Application, Request, Response, NextFunction } from "express";
 import morgan from "morgan";
 import cors from "cors";
-import userRouter from "./routers/user.route";
-import productRouter from "./routers/product.route";
-import { errorHandler } from "./middlewares/errorhandler";
-import { AppError, HttpCode } from "./utils/AppError";
+import userRouter from "../routers/user.route";
+import productRouter from "../routers/product.route";
+import { errorHandler } from "../middlewares/errorhandler";
+import { AppError, HttpCode } from "../utils/AppError";
 
 export const appConfig = (app: Application) => {
   // middleware configuration

@@ -1,31 +1,38 @@
-import { Schema, model, Document } from "mongoose";
-import { IProduct } from "../interfaces/product.interface";
+import mongoose, { Schema, model, Document } from "mongoose";
+// import { IProduct } from "../interfaces/product.interface";
+import {productData} from "./AllInterface"
 
-interface ProductSchema extends IProduct, Document {}
+// interface ProductSchema extends IProduct, Document {}
+interface product extends productData,mongoose.Document{}
 
-const productSchema = new Schema<IProduct>(
+const productSchema = new Schema<productData>(
   {
     name: {
       type: String,
-      required: true,
+      required:[true,"Please Enter the Product Name"],
     },
     category: {
       type: String,
-      required: true,
+      required: [true,"Please enter the product category........"],
     },
     price: {
-      type: Number,
-      required: true,
+      type: String,
+      required:[true,"please enter the product price you wish to buy"],
     },
-    no_In_Stock: {
-      type: Number,
-      required: true,
+     not_in_stock: {
+        type: Boolean,
+        required: [true, "Is the product available"]
     },
-    shop: {
-      type: Schema.Types.ObjectId,
-      ref: "Shop",
-      required: true,
+    purchased: {
+      type: Boolean,
+      default:false,
     },
+    wishlist:[
+      {
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"WishListCollections"
+      }
+    ]
   },
   {
     versionKey: false,
@@ -33,5 +40,5 @@ const productSchema = new Schema<IProduct>(
   }
 );
 
-const ProductModel = model<ProductSchema>("Products", productSchema);
+const ProductModel = model<product>("productsCollections", productSchema);
 export default ProductModel;
